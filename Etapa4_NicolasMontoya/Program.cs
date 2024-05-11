@@ -85,38 +85,45 @@ namespace Etapa4_NicolasMontoya
         }
 
 
+
         static void ApplyAllSortingAlgorithms(int[] numbers)
         {
-
             // Crea una instancia de Output
             Output output = new Output();
 
             Console.WriteLine("Applying all sorting algorithms...");
             Console.WriteLine();
 
+            // Copia del arreglo original para cada algoritmo
+            int[] tempArray = new int[numbers.Length];
+
             Console.WriteLine("\nBubble Sort: \n");
+            Array.Copy(numbers, tempArray, numbers.Length); // Copia el arreglo original
             BubbleSort bubbleSorter = new BubbleSort();
-            bubbleSorter.Sort(numbers);
-            output.PrintArray(numbers); 
+            bubbleSorter.Sort(tempArray);
+            output.PrintArray(tempArray);
 
             Console.WriteLine("\nShell Sort: \n");
+            Array.Copy(numbers, tempArray, numbers.Length); // Copia el arreglo original
             ShellSort shellSorter = new ShellSort();
-            shellSorter.Sort(numbers);
-            output.PrintArray(numbers);
+            shellSorter.Sort(tempArray);
+            output.PrintArray(tempArray);
 
             Console.WriteLine("\nSelection Sort: \n");
+            Array.Copy(numbers, tempArray, numbers.Length); // Copia el arreglo original
             SelectionSort selectionSorter = new SelectionSort();
-            selectionSorter.Sort(numbers);
-            output.PrintArray(numbers);
+            selectionSorter.Sort(tempArray);
+            output.PrintArray(tempArray);
 
-            Console.WriteLine("\nInsertion Sort: \n");
+            Console.WriteLine("\nInserction Sort: \n");
+            Array.Copy(numbers, tempArray, numbers.Length); // Copia el arreglo original
             InsertionSort insertionSorter = new InsertionSort();
-            insertionSorter.Sort(numbers);
-            output.PrintArray(numbers);
-        }
+            insertionSorter.Sort(tempArray);
+            output.PrintArray(tempArray);
 
-        // Se usa función string.Format para formatear la salida de cada elemento con un ancho y alineación específicos
-       
+
+        }
+  
 
     }
 
