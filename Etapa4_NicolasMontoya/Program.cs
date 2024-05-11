@@ -7,46 +7,47 @@ using System.IO;
 
 namespace Etapa4_NicolasMontoya
 {
-     class Program
+    class Program
     {
         static void Main(string[] args)
         {
-            int[] numbers = new int[10];
             bool exit = false;
+            int[] numbers = new int[10];
 
             while (!exit)
             {
-                Console.WriteLine("Menu:");
-                Console.WriteLine("1. Bubble Sort");
-                Console.WriteLine("2. Shell Sort");
-                Console.WriteLine("3. Selection Sort");
-                Console.WriteLine("4. Insertion Sort");
-                Console.WriteLine("5. Apply All Sorting Algorithms");
-                Console.WriteLine("6. Exit");
-                Console.Write("Enter your choice: ");
-
-                string choice = Console.ReadLine();
+                DisplayMenu();
+                string choice = GetUserChoice();
 
                 switch (choice)
                 {
                     case "1":
-                        GetNumbers(numbers);
-                        BubbleSort(numbers);
+                        UserInput getNumbersBubble = new UserInput();
+                        getNumbersBubble.GetNumbers(numbers);
+                        BubbleSort bubbleSorter = new BubbleSort();
+                        bubbleSorter.Sort(numbers);
                         break;
                     case "2":
-                        GetNumbers(numbers);
-                        ShellSort(numbers);
+                        UserInput getNumbersShell = new UserInput();
+                        getNumbersShell.GetNumbers(numbers);
+                        ShellSort shellSorter = new ShellSort();
+                        shellSorter.Sort(numbers);
                         break;
                     case "3":
-                        GetNumbers(numbers);
-                        SelectionSort(numbers);
+                        UserInput getNumbersSelection = new UserInput();
+                        getNumbersSelection.GetNumbers(numbers);
+                        SelectionSort selectionSorter = new SelectionSort();
+                        selectionSorter.Sort(numbers);
                         break;
                     case "4":
-                        GetNumbers(numbers);
-                        InsertionSort(numbers);
+                        UserInput getNumbersInsertion = new UserInput();
+                        getNumbersInsertion.GetNumbers(numbers);
+                        InsertionSort insertionSorter = new InsertionSort();
+                        insertionSorter.Sort(numbers);
                         break;
                     case "5":
-                        GetNumbers(numbers);
+                        UserInput getNumbersAll = new UserInput();
+                        getNumbersAll.GetNumbers(numbers);
                         ApplyAllSortingAlgorithms(numbers);
                         break;
                     case "6":
@@ -57,174 +58,68 @@ namespace Etapa4_NicolasMontoya
                         Console.WriteLine("Invalid choice. Please enter a valid option.");
                         break;
                 }
-
-                Console.WriteLine();
             }
         }
 
-        static void GetNumbers(int[] numbers)
+        // Método para mostrar un menú al usuario.
+
+        static void DisplayMenu()
         {
-            Console.WriteLine("Enter 10 numbers:");
+            Console.WriteLine();
 
-            for (int i = 0; i < numbers.Length; i++)
-            {
-                Console.Write($"Enter number {i + 1}: ");
-                string input = Console.ReadLine().Trim(); // Eliminar espacios en blanco al principio y al final
-
-                if (string.IsNullOrEmpty(input) || !input.All(char.IsDigit))
-                {
-                    Console.WriteLine("Invalid input. Please enter a valid integer.");
-                    i--; // Reintentar la entrada del número actual
-                    continue;
-                }
-
-                try
-                {
-                    numbers[i] = int.Parse(input);
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("Invalid input. Please enter a valid integer.");
-                    i--; // Reintentar la entrada del número actual
-                }
-            }
+            Console.WriteLine("Menu:");
+            Console.WriteLine("1. Bubble Sort");
+            Console.WriteLine("2. Shell Sort");
+            Console.WriteLine("3. Selection Sort");
+            Console.WriteLine("4. Insertion Sort");
+            Console.WriteLine("5. Apply All Sorting Algorithms");
+            Console.WriteLine("6. Exit");
+            Console.Write("Enter your choice: ");
         }
 
+        // Método para obtener la elección del usuario.
 
-        static void BubbleSort(int[] numbers)
+        static string GetUserChoice()
         {
-            Console.WriteLine("Executing Bubble Sort...");
-            int n = numbers.Length;
-            for (int i = 0; i < n - 1; i++)
-            {
-                for (int j = 0; j < n - i - 1; j++)
-                {
-                    if (numbers[j] > numbers[j + 1])
-                    {
-                        int temp = numbers[j];
-                        numbers[j] = numbers[j + 1];
-                        numbers[j + 1] = temp;
-                    }
-                }
-            }
-
-            Console.WriteLine("Sorted numbers: ");
-            foreach (var number in numbers)
-            {
-                Console.Write($"{number} ");
-            }
+            return Console.ReadLine();
         }
 
-        static void ShellSort(int[] numbers)
-        {
-            Console.WriteLine("Executing Shell Sort...");
-            int n = numbers.Length;
-            for (int gap = n / 2; gap > 0; gap /= 2)
-            {
-                for (int i = gap; i < n; i += 1)
-                {
-                    int temp = numbers[i];
-                    int j;
-                    for (j = i; j >= gap && numbers[j - gap] > temp; j -= gap)
-                    {
-                        numbers[j] = numbers[j - gap];
-                    }
-                    numbers[j] = temp;
-                }
-            }
-
-            Console.WriteLine("Sorted numbers: ");
-            foreach (var number in numbers)
-            {
-                Console.Write($"{number} ");
-            }
-        }
-
-        static void SelectionSort(int[] numbers)
-        {
-
-            Console.WriteLine("Executing Selection Sort...");
-            int n = numbers.Length;
-            for (int i = 0; i < n - 1; i++)
-            {
-                int minIndex = i;
-                for (int j = i + 1; j < n; j++)
-                {
-                    if (numbers[j] < numbers[minIndex])
-                    {
-                        minIndex = j;
-                    }
-                }
-                int temp = numbers[minIndex];
-                numbers[minIndex] = numbers[i];
-                numbers[i] = temp;
-            }
-
-            Console.WriteLine("Sorted numbers: ");
-            foreach (var number in numbers)
-            {
-                Console.Write($"{number} ");
-            }
-        }
-
-        static void InsertionSort(int[] numbers)
-        {
-
-            Console.WriteLine("Executing Insertion Sort...");
-            int n = numbers.Length;
-            for (int i = 1; i < n; ++i)
-            {
-                int key = numbers[i];
-                int j = i - 1;
-                while (j >= 0 && numbers[j] > key)
-                {
-                    numbers[j + 1] = numbers[j];
-                    j = j - 1;
-                }
-                numbers[j + 1] = key;
-            }
-
-            Console.WriteLine("Sorted numbers: ");
-            foreach (var number in numbers)
-            {
-                Console.Write($"{number} ");
-            }
-        }
 
         static void ApplyAllSortingAlgorithms(int[] numbers)
         {
+
+            // Crea una instancia de Output
+            Output output = new Output();
+
             Console.WriteLine("Applying all sorting algorithms...");
             Console.WriteLine();
 
-            Console.WriteLine("Bubble Sort:");
-            BubbleSort(numbers);
-            PrintSortedArray(numbers); // Función para imprimir el arreglo ordenado
+            Console.WriteLine("\nBubble Sort: \n");
+            BubbleSort bubbleSorter = new BubbleSort();
+            bubbleSorter.Sort(numbers);
+            output.PrintArray(numbers); 
 
-            Console.WriteLine("\nShell Sort:");
-            ShellSort(numbers);
-            PrintSortedArray(numbers);
+            Console.WriteLine("\nShell Sort: \n");
+            ShellSort shellSorter = new ShellSort();
+            shellSorter.Sort(numbers);
+            output.PrintArray(numbers);
 
-            Console.WriteLine("\nSelection Sort:");
-            SelectionSort(numbers);
-            PrintSortedArray(numbers);
+            Console.WriteLine("\nSelection Sort: \n");
+            SelectionSort selectionSorter = new SelectionSort();
+            selectionSorter.Sort(numbers);
+            output.PrintArray(numbers);
 
-            Console.WriteLine("\nInsertion Sort:");
-            InsertionSort(numbers);
-            PrintSortedArray(numbers);
+            Console.WriteLine("\nInsertion Sort: \n");
+            InsertionSort insertionSorter = new InsertionSort();
+            insertionSorter.Sort(numbers);
+            output.PrintArray(numbers);
         }
 
-        static void PrintSortedArray(int[] numbers)
-        {
-            Console.WriteLine("Sorted numbers: ");
-            foreach (var number in numbers)
-            {
-                Console.Write($"{number} ");
-            }
-            Console.WriteLine();
-        }
-
+        // Se usa función string.Format para formatear la salida de cada elemento con un ancho y alineación específicos
+       
 
     }
+
 }
 
 
