@@ -79,19 +79,13 @@ namespace Etapa4_NicolasMontoya
                         UserInput getNumbersAll = new UserInput();
                         getNumbersAll.GetNumbers(numbers);
 
-                        // Aplica todos los algoritmos de ordenamiento
-                        ApplyAllSortingAlgorithms(numbers, printToFile);
+                        List<List<int>> allSortedNumbers = ApplyAllSortingAlgorithms(numbers, printToFile);
 
-                        // Convierte el array numbers en una lista de listas
-                        List<List<int>> nestedNumbersList = new List<List<int>>();
-                        for (int i = 0; i < numbers.Length; i++)
-                        {
-                            nestedNumbersList.Add(new List<int>() { numbers[i] });
-                        }
+                        // Llama al nuevo método para preguntar e imprimir al archivo
+                        PrintAllSortingResultsToFile(allSortedNumbers, "temp.txt");  // Ajusta el nombre del archivo si lo deseas
 
-                        // Llama a AskAndPrintToFile con la lista de listas
-                        AskAndPrintToFile(nestedNumbersList);
                         break;
+
 
                     case "6":
                         Console.WriteLine("Exiting program...");
@@ -157,6 +151,63 @@ namespace Etapa4_NicolasMontoya
             }
         }
 
+        static void PrintAllSortingResultsToFile(List<List<int>> sortedNumbersList, string fileName)
+        {
+            Console.WriteLine("¿Desea imprimir la salida a un archivo de texto? (y/n)");
+            string printChoice = Console.ReadLine().ToLower();
+
+            if (printChoice == "y" || printChoice == "si")
+            {
+                string formattedNumbers = FormatNumbersForPrinting(sortedNumbersList);
+                PrintToFile(fileName, formattedNumbers);
+            }
+        }
+        static List<List<int>> ApplyAllSortingAlgorithms(int[] numbers, bool printToFile)
+        {
+            List<List<int>> sortedNumbersList = new List<List<int>>();
+
+            // Crea una instancia de Output 
+            Output output = new Output();
+
+            // Bubble Sort
+            BubbleSort bubbleSorter = new BubbleSort();
+            int[] bubbleSortNumbers = (int[])numbers.Clone();
+            sortedNumbersList.Add(bubbleSorter.Sort(bubbleSortNumbers).ToList());
+
+            // Shell Sort
+            ShellSort shellSorter = new ShellSort();
+            int[] shellSortNumbers = (int[])numbers.Clone();
+            sortedNumbersList.Add(shellSorter.Sort(shellSortNumbers).ToList());
+
+            // Selection Sort
+            SelectionSort selectionSorter = new SelectionSort();
+            int[] selectionSortNumbers = (int[])numbers.Clone();
+            sortedNumbersList.Add(selectionSorter.Sort(selectionSortNumbers).ToList());
+
+            // Insertion Sort
+            InsertionSort insertionSorter = new InsertionSort();
+            int[] insertionSortNumbers = (int[])numbers.Clone();
+            sortedNumbersList.Add(insertionSorter.Sort(insertionSortNumbers).ToList());
+
+            // Verifica si se debe imprimir y genera el archivo si es necesario
+            if (printToFile)
+            {
+                AskAndPrintToFile(sortedNumbersList);
+            }
+            else
+            {
+                // Imprime los resultados en consola si no se imprime en archivo
+                for (int i = 0; i < sortedNumbersList.Count; i++)
+                {
+                    Console.WriteLine($"\nResultados del algoritmo {i + 1}:");
+                    output.PrintArray(sortedNumbersList[i].ToArray()); // Imprime la lista actual
+                }
+            }
+
+            return sortedNumbersList;
+        }
+
+
         static string FormatNumbersForPrinting(List<List<int>> sortedNumbersList)
         {
             string formattedNumbers = "";
@@ -188,8 +239,6 @@ namespace Etapa4_NicolasMontoya
 
 
 
-
-        // Impresión de archivo txt
         static void PrintToFile(string fileName, string text)
         {
             using (StreamWriter writer = new StreamWriter(fileName))
@@ -198,95 +247,9 @@ namespace Etapa4_NicolasMontoya
             }
         }
 
+      
 
-
-        static List<List<int>> ApplyAllSortingAlgorithms(int[] numbers, bool printToFile)
-        {
-            List<List<int>> allSortedNumbers = new List<List<int>>(); // Lista principal para almacenar resultados
-
-            // Crea una instancia de Output 
-            Output output = new Output();
-
-            Console.WriteLine("Applying all sorting algorithms...");
-            Console.WriteLine();
-
-            // Declaración correcta de sortedNumbersList
-            List<List<int>> sortedNumbersList = new List<List<int>>();
-
-            Console.WriteLine("\nBubble Sort: \n");
-            // Crea una copia independiente del arreglo original para Bubble Sort
-            int[] bubbleSortNumbers = (int[])numbers.Clone();
-            BubbleSort bubbleSorter = new BubbleSort();
-            sortedNumbersList.Add(bubbleSorter.Sort(bubbleSortNumbers).ToList());
-            if (printToFile)
-            {
-                PrintToFile("temp.txt", "Bubble Sort:\n" + string.Join("\n", bubbleSortNumbers));
-            }
-            else
-            {
-                output.PrintArray(bubbleSortNumbers);
-            }
-
-            Console.WriteLine("\nShell Sort: \n");
-            // Crea una copia independiente del arreglo original para Shell Sort
-            int[] shellSortNumbers = (int[])numbers.Clone();
-            ShellSort shellSorter = new ShellSort();
-            sortedNumbersList.Add(shellSorter.Sort(shellSortNumbers).ToList());
-            if (printToFile)
-            {
-                PrintToFile("temp.txt", "\nShell Sort:\n" + string.Join("\n", shellSortNumbers));
-            }
-            else
-            {
-                output.PrintArray(shellSortNumbers);
-            }
-
-            Console.WriteLine("\nSelection Sort: \n");
-            // Crea una copia independiente del arreglo original para Selection Sort
-            int[] selectionSortNumbers = (int[])numbers.Clone();
-            SelectionSort selectionSorter = new SelectionSort();
-            sortedNumbersList.Add(selectionSorter.Sort(selectionSortNumbers).ToList());
-            if (printToFile)
-            {
-                PrintToFile("temp.txt", "\nSelection Sort:\n" + string.Join("\n", selectionSortNumbers));
-            }
-            else
-            {
-                output.PrintArray(selectionSortNumbers);
-            }
-
-            Console.WriteLine("\nInsertion Sort: \n");
-            // Crea una copia independiente del arreglo original para Insertion Sort
-            int[] insertionSortNumbers = (int[])numbers.Clone();
-            InsertionSort insertionSorter = new InsertionSort();
-            sortedNumbersList.Add(insertionSorter.Sort(insertionSortNumbers).ToList());
-            if (printToFile)
-            {
-                PrintToFile("temp.txt", "\nInsertion Sort:\n" + string.Join("\n", insertionSortNumbers));
-            }
-            else
-            {
-                output.PrintArray(insertionSortNumbers);
-            }
-
-            // Pregunta sobre la impresión a archivo
-            if (AskAndPrintToFile(allSortedNumbers)) // Llama a la función modificada
-            {
-                PrintToFile("All_Sorting_Results.txt", FormatNumbersForPrinting(allSortedNumbers)); // Imprime todos los resultados
-            }
-            else
-            {
-                // Imprime cada resultado individualmente usando output.PrintArray
-                for (int i = 0; i < sortedNumbersList.Count; i++)
-                {
-                    Console.WriteLine("\nResultados del algoritmo " + (i + 1) + ":");
-                    output.PrintArray(sortedNumbersList[i].ToArray()); // Imprime la lista actual
-                }
-            }
-
-            // Siempre devuelve una lista vacía si no se solicita la impresión a archivo
-            return allSortedNumbers;
-        }
+        
 
 
     }
