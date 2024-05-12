@@ -82,7 +82,7 @@ namespace Etapa4_NicolasMontoya
                         List<List<int>> allSortedNumbers = ApplyAllSortingAlgorithms(numbers, printToFile);
 
                         // Llama al nuevo método para preguntar e imprimir al archivo
-                        PrintAllSortingResultsToFile(allSortedNumbers, "temp.txt");  // Ajusta el nombre del archivo si lo deseas
+                        PrintAllSortingResultsToFile(allSortedNumbers);  // Ajusta el nombre del archivo si lo deseas
 
                         break;
 
@@ -134,78 +134,74 @@ namespace Etapa4_NicolasMontoya
             return formattedNumbers.Trim(); // Elimina espacios en blanco al final
         }
 
-        static bool AskAndPrintToFile(List<List<int>> sortedNumbersList, string fileName = "temp.txt")
+        static bool AskAndPrintToFile(List<List<int>> sortedNumbersList)
         {
-            Console.WriteLine("¿Desea imprimir la salida a un archivo de texto? (y/n)");
+            Console.WriteLine();
+            Console.WriteLine(" ¿Would you like to print the output to a text file? (y/n)");
             string printChoice = Console.ReadLine().ToLower();
 
             if (printChoice == "y")
             {
-                string formattedNumbers = FormatNumbersForPrinting(sortedNumbersList); // Formatea los números para imprimir
+                string fileName = GetUniqueFileName("temp.txt"); // Change base name if desired
+                string formattedNumbers = FormatNumbersForPrinting(sortedNumbersList);
                 PrintToFile(fileName, formattedNumbers);
-                return true; // Indica que se realizó la impresión
+                return true;
             }
             else
             {
-                return false; // Indica que no se realizó la impresión
+                return false;
             }
         }
 
-        static void PrintAllSortingResultsToFile(List<List<int>> sortedNumbersList, string fileName)
+
+        static void PrintAllSortingResultsToFile(List<List<int>> sortedNumbersList)
         {
-            Console.WriteLine("¿Desea imprimir la salida a un archivo de texto? (y/n)");
+            Console.WriteLine();
+            Console.WriteLine(" ¿Do you want to print the output to a text file? (y/n)");
             string printChoice = Console.ReadLine().ToLower();
 
             if (printChoice == "y" || printChoice == "si")
             {
+                string fileName = GetUniqueFileName("temp.txt"); // Change base name if desired
                 string formattedNumbers = FormatNumbersForPrinting(sortedNumbersList);
                 PrintToFile(fileName, formattedNumbers);
             }
         }
+
         static List<List<int>> ApplyAllSortingAlgorithms(int[] numbers, bool printToFile)
         {
             List<List<int>> sortedNumbersList = new List<List<int>>();
 
-            // Crea una instancia de Output 
+            // Crea una instancia de Output 
             Output output = new Output();
 
             // Bubble Sort
             BubbleSort bubbleSorter = new BubbleSort();
             int[] bubbleSortNumbers = (int[])numbers.Clone();
+            Console.WriteLine();
             sortedNumbersList.Add(bubbleSorter.Sort(bubbleSortNumbers).ToList());
 
             // Shell Sort
             ShellSort shellSorter = new ShellSort();
             int[] shellSortNumbers = (int[])numbers.Clone();
+            Console.WriteLine();
             sortedNumbersList.Add(shellSorter.Sort(shellSortNumbers).ToList());
 
             // Selection Sort
             SelectionSort selectionSorter = new SelectionSort();
             int[] selectionSortNumbers = (int[])numbers.Clone();
+            Console.WriteLine();
             sortedNumbersList.Add(selectionSorter.Sort(selectionSortNumbers).ToList());
 
             // Insertion Sort
             InsertionSort insertionSorter = new InsertionSort();
             int[] insertionSortNumbers = (int[])numbers.Clone();
+            Console.WriteLine();
             sortedNumbersList.Add(insertionSorter.Sort(insertionSortNumbers).ToList());
-
-            // Verifica si se debe imprimir y genera el archivo si es necesario
-            if (printToFile)
-            {
-                AskAndPrintToFile(sortedNumbersList);
-            }
-            else
-            {
-                // Imprime los resultados en consola si no se imprime en archivo
-                for (int i = 0; i < sortedNumbersList.Count; i++)
-                {
-                    Console.WriteLine($"\nResultados del algoritmo {i + 1}:");
-                    output.PrintArray(sortedNumbersList[i].ToArray()); // Imprime la lista actual
-                }
-            }
 
             return sortedNumbersList;
         }
+
 
 
         static string FormatNumbersForPrinting(List<List<int>> sortedNumbersList)
@@ -215,8 +211,10 @@ namespace Etapa4_NicolasMontoya
             // Ejemplo de formato:
             for (int i = 0; i < sortedNumbersList.Count; i++)
             {
-                formattedNumbers += $"Algoritmo: {GetAlgorithmName(i + 1)}\n"; // Nombre del algoritmo
-                formattedNumbers += string.Join(", ", sortedNumbersList[i]) + "\n\n"; // Números ordenados
+                
+                formattedNumbers += $"Algoritmo: {GetAlgorithmName (i + 1)}\n"; // Nombre del algoritmo
+                Console.WriteLine();
+                formattedNumbers += string.Join(", ", sortedNumbersList[i] ) + "\n\n"; // Números ordenados
             }
 
             return formattedNumbers.Trim(); // Elimina espacios en blanco al final
@@ -232,7 +230,7 @@ namespace Etapa4_NicolasMontoya
                 case 3: return "Selection Sort";
                 case 4: return "Insertion Sort";
                 case 5: return "All Sorting Algorithms";
-                default: return "Desconocido";
+                default: return "Unknown";
             }
         }
 
@@ -247,9 +245,31 @@ namespace Etapa4_NicolasMontoya
             }
         }
 
-      
 
-        
+
+        static string GetUniqueFileName(string baseFileName)
+        {
+            string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(baseFileName);
+            string extension = Path.GetExtension(baseFileName);
+
+            int fileCount = 1;
+
+            for (; File.Exists(fileNameWithoutExtension + extension); fileCount++)
+            {
+                string formattedCount = fileCount.ToString("D3"); // Format with leading zeros
+                fileNameWithoutExtension = $"{fileNameWithoutExtension}{formattedCount}";
+            }
+
+            return fileNameWithoutExtension + extension;
+        }
+
+
+
+
+
+
+
+
 
 
     }

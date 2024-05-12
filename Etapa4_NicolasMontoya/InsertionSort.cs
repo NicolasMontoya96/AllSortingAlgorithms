@@ -16,7 +16,7 @@ namespace Etapa4_NicolasMontoya
         public List<int> Sort(int[] numbers)
         {
 
-            Console.WriteLine("Ejecutando Insertion Sort...");
+            Console.WriteLine("Executing Insertion Sort...");
 
             int n = numbers.Length;
 
@@ -47,15 +47,17 @@ namespace Etapa4_NicolasMontoya
                 sortedNumbers.Add(key);
             }
 
-
-            Console.WriteLine("Sorted numbers: ");
-
+            
+            Console.WriteLine("Sorted numbers: \n" );
+            
             // Imprime el contenido del arreglo ordenado.
             foreach (var number in sortedNumbers)
             {
+                
                 Console.Write($"{number} ");
             }
 
+            Console.WriteLine();
             return sortedNumbers;
         }
     }

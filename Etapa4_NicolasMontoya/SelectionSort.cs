@@ -16,7 +16,7 @@ namespace Etapa4_NicolasMontoya
         public List<int> Sort(int[] numbers)
         {
 
-            Console.WriteLine("Executing Selection Sort... \n ");
+            Console.WriteLine("Executing Selection Sort... ");
 
             int n = numbers.Length;
 
@@ -57,12 +57,15 @@ namespace Etapa4_NicolasMontoya
 
             Console.WriteLine("Sorted numbers: \n");
 
+
+            
             // Imprime el contenido de la lista ordenada.
             foreach (var number in sortedNumbers)
             {
                 Console.Write($"{number} ");
             }
 
+            Console.WriteLine();
             // Devuelve la lista con el resultado ordenado.
             return sortedNumbers;
         }

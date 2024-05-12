@@ -19,7 +19,7 @@ namespace Etapa4_NicolasMontoya
         */
         public List<int> Sort(int[] numbers)
         {
-            Console.WriteLine("Executing Shell Sort... \n ");
+            Console.WriteLine("Executing Shell Sort...");
 
             int n = numbers.Length;
 
@@ -49,8 +49,10 @@ namespace Etapa4_NicolasMontoya
                 }
             }
 
+            
             Console.WriteLine("Sorted numbers: \n ");
 
+            
             // Convierte el arreglo ordenado en una lista para devolverla.
             List<int> sortedNumbers = new List<int>(sortedArray);
 
@@ -60,6 +62,7 @@ namespace Etapa4_NicolasMontoya
                 Console.Write($"{number} ");
             }
 
+            Console.WriteLine();
             // **Devuelve la lista con el resultado ordenado:**
             return sortedNumbers;
         }
