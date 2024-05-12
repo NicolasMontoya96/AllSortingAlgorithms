@@ -12,7 +12,7 @@ namespace Etapa4_NicolasMontoya
         {
             for (int i = 0; i < numbers.Length; i++)
             {
-                Console.WriteLine(string.Format("{0,5}", numbers[i]));
+                Console.WriteLine(string.Format("{0,5}", numbers[i], "\n"));
             }
         }
     }

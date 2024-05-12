@@ -13,12 +13,15 @@ namespace Etapa4_NicolasMontoya
          * 
          * @param numbers El arreglo de enteros a ordenar.
          */
-        public void Sort(int[] numbers)
+        public List<int> Sort(int[] numbers)
         {
-        
+
             Console.WriteLine("Executing Selection Sort... \n ");
 
             int n = numbers.Length;
+
+            // Crea una lista vacía para almacenar el resultado ordenado.
+            List<int> sortedNumbers = new List<int>();
 
             // Recorre el arreglo desde el primer elemento hasta el penúltimo.
             for (int i = 0; i < n - 1; i++)
@@ -46,13 +49,22 @@ namespace Etapa4_NicolasMontoya
                 }
             }
 
+            // Agrega los elementos ordenados a la lista.
+            foreach (int number in numbers)
+            {
+                sortedNumbers.Add(number);
+            }
+
             Console.WriteLine("Sorted numbers: \n");
 
-            // Imprime el contenido del arreglo ordenado.
-            foreach (var number in numbers)
+            // Imprime el contenido de la lista ordenada.
+            foreach (var number in sortedNumbers)
             {
                 Console.Write($"{number} ");
             }
+
+            // Devuelve la lista con el resultado ordenado.
+            return sortedNumbers;
         }
     }
 
