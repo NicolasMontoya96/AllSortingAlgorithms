@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Etapa4_NicolasMontoya
 {
+    using System;
+    using System.Collections.Generic;
+
     public class ShellSort
     {
         /**
@@ -20,40 +23,36 @@ namespace Etapa4_NicolasMontoya
 
             int n = numbers.Length;
 
-            // Crea una lista vacía para almacenar el resultado ordenado.
-            List<int> sortedNumbers = new List<int>();
+            // Copia el arreglo original para no modificarlo directamente.
+            int[] sortedArray = new int[n];
+            Array.Copy(numbers, sortedArray, n);
 
             // Intervalo inicial para la ordenación por subarreglos.
             for (int gap = n / 2; gap > 0; gap /= 2)
             {
-
                 for (int i = gap; i < n; i += 1)
                 {
                     // Elemento actual que se va a insertar.
-                    int temp = numbers[i];
+                    int temp = sortedArray[i];
 
                     // Índice para la inserción dentro del subarreglo.
                     int j;
 
                     // Inserta el elemento actual en su posición correcta dentro del subarreglo definido por el gap.
-                    for (j = i; j >= gap && numbers[j - gap] > temp; j -= gap)
+                    for (j = i; j >= gap && sortedArray[j - gap] > temp; j -= gap)
                     {
                         // Desplaza el elemento anterior en el subarreglo hacia adelante.
-                        numbers[j] = numbers[j - gap];
+                        sortedArray[j] = sortedArray[j - gap];
                     }
-                    // Verifica si temp ya existe en la lista ordenada dentro del rango actual
-                    if (!sortedNumbers.Contains(temp) && j >= gap)
-                    {
-                        // Agrega el elemento actual a la lista ordenada
-                        sortedNumbers.Add(temp);
-                    }
+                    // Inserta el elemento actual en su posición correcta.
+                    sortedArray[j] = temp;
                 }
-
             }
 
-            
-
             Console.WriteLine("Sorted numbers: \n ");
+
+            // Convierte el arreglo ordenado en una lista para devolverla.
+            List<int> sortedNumbers = new List<int>(sortedArray);
 
             // Imprime el contenido de la lista ordenada.
             foreach (var number in sortedNumbers)
@@ -65,6 +64,7 @@ namespace Etapa4_NicolasMontoya
             return sortedNumbers;
         }
     }
+
 
 
 }
